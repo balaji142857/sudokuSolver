@@ -32,25 +32,25 @@ public class Viewer extends Application{
 	        	final TextField dummy = inputs[i*9+j];
 	        	if(i<3)
 	        		if(j<3)
-	        			dummy.setStyle("-fx-background-color:red");
+	        			dummy.setStyle("-fx-background-color:rgb(244, 211, 211)");
 	        		else if(j<6)
-	        			dummy.setStyle("-fx-background-color:green");
+	        			dummy.setStyle("-fx-background-color:rgb(109,246,79)");
 	        		else
-	        			dummy.setStyle("-fx-background-color:blue");
+	        			dummy.setStyle("-fx-background-color:#00F0F0");
 	        	else if(i<6)
 	        		if(j<3)
-	        			dummy.setStyle("-fx-background-color:yellow");
+	        			dummy.setStyle("-fx-background-color:rgb(241,246,79)");
 	        		else if(j<6)
-	        			dummy.setStyle("-fx-background-color:brown");
+	        			dummy.setStyle("-fx-background-color:rgb(140,156,226)");
 	        		else
-	        			dummy.setStyle("-fx-background-color:grey");
+	        			dummy.setStyle("-fx-background-color:#F0F0F0");
 	        	else
 	        		if(j<3)
 	        			dummy.setStyle("-fx-background-color:white");
 	        		else if(j<6)
 	        			dummy.setStyle("-fx-background-color:pink");
 	        		else
-	        			dummy.setStyle("-fx-background-color:blue");
+	        			dummy.setStyle("-fx-background-color:#E7E2BC");
 	        	dummy.getStyleClass().add("someStyle");
 	        	//dummy.setPrefWidth(70);
 	        	dummy.textProperty().addListener(new ChangeListener<String>() {

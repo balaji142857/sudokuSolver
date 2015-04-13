@@ -1,6 +1,5 @@
 package com.krishnan.balaji;
 
-import javax.swing.UnsupportedLookAndFeelException;
 
 
 
@@ -58,7 +57,7 @@ public class Sudoku {
 		{
 			for(int j=0; j<9; j++)
 			{
-				if(cells[i][j].isValueSet)//
+				if(cells[i][j].isValueSet)
 				{
 					for(int k=0; k<9; k++){
 						if(!cells[i][k].isValueSet)
@@ -100,10 +99,70 @@ public class Sudoku {
 							anyThingNew=true;
 						}
 					}
+					boolean returnValue = false;
+					//remove the possibilities from the same box
+					if(i<3)
+					{
+						if(j<3)
+							for(int k=0;k<3;k++)
+								for(int l=0;l<3;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<6)
+							for(int k=0;k<3;k++)
+								for(int l=3;l<6;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<9)
+							for(int k=0;k<3;k++)
+								for(int l=6;l<9;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+					}
+					else if(i <6)
+					{
+						if(j<3)
+							for(int k=3;k<6;k++)
+								for(int l=0;l<3;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<6)
+							for(int k=3;k<6;k++)
+								for(int l=3;l<6;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<9)
+							for(int k=3;k<6;k++)
+								for(int l=6;l<9;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+					}
+					else if(i<9)
+					{
+						if(j<3)
+							for(int k=6;k<9;k++)
+								for(int l=0;l<3;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<6)
+							for(int k=6;k<9;k++)
+								for(int l=3;l<6;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+						else if(j<9)
+							for(int k=6;k<9;k++)
+								for(int l=6;l<9;l++)
+									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+					}
 				}
 			}
 	}
 		return anyThingNew;
+	}
+	
+	private static boolean removeFromSameBox(Box box,int i, int j){
+		if(!box.isValueSet)
+			return false;
+		cells[i][j].possibleValues.remove(box.finalValue);
+		if(cells[i][j].possibleValues.size()==1)
+		{
+			cells[i][j].finalValue=cells[i][j].possibleValues.iterator().next();
+			cells[i][j].isValueSet=true;
+			computed++;
+		}
+		return true;
 	}
 	
 	private static boolean processBox(Box box,int i,int j){
@@ -170,10 +229,10 @@ public class Sudoku {
 		return returnValue;
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public static void main(String[] args) {
 		//new SudokuView().initialize();
 		Integer[][] input = new Integer[9][9];
-		input[0][1]=7;
+		/*input[0][1]=7;
 		input[0][3]=8;
 		input[0][4]=4;
 		
@@ -208,8 +267,8 @@ public class Sudoku {
 		
 		input[4][8]=5;
 		input[5][8]=8;
-		input[7][8]=1;
-		/*input[2][0]=6;
+		input[7][8]=1;*/
+		input[2][0]=6;
 		input[3][0]=3;
 		input[7][0]=2;
 		input[8][0]=9;
@@ -256,7 +315,7 @@ public class Sudoku {
 		input[1][8]=5;
 		input[3][8]=6;
 		input[5][8]=4;
-		input[6][8]=7;*/
+		input[6][8]=7;
 		initialize(input);
 		solveIt();
 	}
