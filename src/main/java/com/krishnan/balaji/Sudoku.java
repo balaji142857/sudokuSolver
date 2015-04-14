@@ -25,8 +25,9 @@ public class Sudoku {
 				}
 	}
 	
-	public static void solveIt()
+	public static Integer[][] solveIt()
 	{
+		Integer[][] solvedArray = new Integer[9][9];
 		System.out.println("Initial state");
 		display();
 		boolean nextAttempt =true;
@@ -40,6 +41,13 @@ public class Sudoku {
 			display();
 		}
 		System.out.println("computed: "+computed);
+		for(int i= 0; i<9; i++)
+			for(int j=0; j<9; j++)
+				if(cells[i][j].isValueSet)
+				{
+					solvedArray[i][j]=cells[i][j].finalValue;
+				}
+		return solvedArray;
 	}
 	
 	public static void display()

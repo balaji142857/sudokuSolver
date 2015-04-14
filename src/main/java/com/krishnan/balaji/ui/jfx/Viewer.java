@@ -1,5 +1,7 @@
 package com.krishnan.balaji.ui.jfx;
 
+import com.krishnan.balaji.Sudoku;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,11 +23,11 @@ public class Viewer extends Application{
 	        launch(args);
 	    }
 	    
-	    @Override
+    @Override
     public void start(Stage primaryStage) {
 	        primaryStage.setTitle("Sudoku Solver v0.1");
 	        Button solve,reset,stop;
-	        TextField[] inputs = new TextField[81];
+	        final TextField[] inputs = new TextField[81];
 	        for(int i=0;i<9;i++){
 	        	for(int j=0;j<9; j++){
 	        	inputs[i*9+j] = new TextField();
@@ -53,7 +55,7 @@ public class Viewer extends Application{
 	        			dummy.setStyle("-fx-background-color:#E7E2BC");
 	        	dummy.getStyleClass().add("someStyle");
 	        	//dummy.setPrefWidth(70);
-	        	dummy.textProperty().addListener(new ChangeListener<String>() {
+	        	/*dummy.textProperty().addListener(new ChangeListener<String>() {
 	                @Override
 	                public void changed(ObservableValue<? extends String> observable,
 	                        String oldValue, String newValue) {
@@ -65,7 +67,7 @@ public class Viewer extends Application{
 	                		dummy.setText(dummy.getText().substring(0, 1));
 	                	}
 	                }
-	        });
+	        });*/
 	        }
 	        }
 	        reset = new Button();
@@ -101,7 +103,23 @@ public class Viewer extends Application{
 	 
 	            @Override
 	            public void handle(ActionEvent event) {
+	            	Integer[][] intArray = new Integer[9][9];
 	                System.out.println("Hello World!");
+	                for(int i=0;i<9;i++){
+	                	for(int j=0;j<9;j++){
+	                		System.out.print(inputs[i*9+j].getText());
+	                		if(inputs[i*9+j].getText().length()==1)
+	                			intArray[j][i]=Integer.parseInt(inputs[i*9+j].getText());
+	                	}
+	                }
+	                Sudoku.initialize(intArray);
+	                Integer[][] solved = Sudoku.solveIt();
+	                for(int i=0;i<9;i++){
+	                	for(int j=0;j<9;j++){
+	                		if(solved[i][j]!=null)
+	                			inputs[j*9+i].setText(solved[i][j]+"");
+	                	}
+                	}
 	            }
 	        });
 	        Scene scene = new Scene(root, 300, 250);
