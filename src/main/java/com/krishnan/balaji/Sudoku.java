@@ -1,10 +1,7 @@
 package com.krishnan.balaji;
 
-
-
-
 public class Sudoku {
-
+	
 	public static Box[][] cells;
 	static int computed = 0;
 	static{
@@ -17,12 +14,16 @@ public class Sudoku {
 	public static void initialize(Integer[][] inputValues)
 	{
 		for(int i= 0; i<9; i++)
+		{
 			for(int j=0; j<9; j++)
+			{
 				if(inputValues[i][j]!=null &&  	inputValues[i][j] > 0)
 				{
 					cells[i][j].finalValue = inputValues[i][j];
 					cells[i][j].isValueSet = true;
 				}
+			}
+		}
 	}
 	
 	public static Integer[][] solveIt()
@@ -59,7 +60,7 @@ public class Sudoku {
 		}
 	}
 	
-	public static boolean attempt(){
+	public static boolean attempt(){ 
 		boolean anyThingNew = false;
 		for(int i= 0; i<9; i++)
 		{
@@ -67,6 +68,7 @@ public class Sudoku {
 			{
 				if(cells[i][j].isValueSet)
 				{
+					//remove possibilities from the same row and column based on the current cell value
 					for(int k=0; k<9; k++){
 						if(!cells[i][k].isValueSet)
 						{
@@ -91,10 +93,12 @@ public class Sudoku {
 							}
 						}
 					}
-					anyThingNew = anyThingNew || processInThreeByThreeBox(i,j);
+					//remove the set value from other cells in the same box
+					anyThingNew = anyThingNew || removePossibleValueFromOtherCellInThreeByThreeBoxes(i,j);
 				}
 				else
 				{
+					//remove the possible values in the current cell based on the values in the same row and column
 					for(int k=0; k<9; k++){
 						if(cells[i][k].isValueSet)
 							cells[i][j].possibleValues.remove(cells[i][k].finalValue);
@@ -107,133 +111,160 @@ public class Sudoku {
 							anyThingNew=true;
 						}
 					}
-					boolean returnValue = false;
-					//remove the possibilities from the same box
+					//remove the possible values in the current cell based on values from the same box
 					if(i<3)
-					{
 						if(j<3)
-							for(int k=0;k<3;k++)
-								for(int l=0;l<3;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(0,3,0,3,i,j);
 						else if(j<6)
-							for(int k=0;k<3;k++)
-								for(int l=3;l<6;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(0,3,3,6,i,j);
 						else if(j<9)
-							for(int k=0;k<3;k++)
-								for(int l=6;l<9;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
-					}
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(0,3,6,9,i,j);
 					else if(i <6)
-					{
 						if(j<3)
-							for(int k=3;k<6;k++)
-								for(int l=0;l<3;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(3,6,0,3,i,j);
 						else if(j<6)
-							for(int k=3;k<6;k++)
-								for(int l=3;l<6;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(3,6,3,6,i,j);
 						else if(j<9)
-							for(int k=3;k<6;k++)
-								for(int l=6;l<9;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
-					}
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(3,6,6,9,i,j);
 					else if(i<9)
-					{
 						if(j<3)
-							for(int k=6;k<9;k++)
-								for(int l=0;l<3;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(6,9,0,3,i,j);
 						else if(j<6)
-							for(int k=6;k<9;k++)
-								for(int l=3;l<6;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(6,9,3,6,i,j);
 						else if(j<9)
-							for(int k=6;k<9;k++)
-								for(int l=6;l<9;l++)
-									returnValue = returnValue || removeFromSameBox(cells[k][l],i,j);
-					}
+							anyThingNew = anyThingNew || filterCurrentCellValueFromSameBoxValues(6,9,6,9,i,j);
 				}
+				//if a number has a possibility of occurrence in only one cell of the 3*3 then fill it..
+				//there may be other numbers still in the possibility set of that cell. but it can be filled in
+				anyThingNew = anyThingNew || filterCurrentCellOnPossibilityBasisInBoxes(i,j);
 			}
 	}
 		return anyThingNew;
 	}
 	
-	private static boolean removeFromSameBox(Box box,int i, int j){
-		if(!box.isValueSet)
-			return false;
-		cells[i][j].possibleValues.remove(box.finalValue);
-		if(cells[i][j].possibleValues.size()==1)
+	private static boolean filterCurrentCellOnPossibilityBasisInBoxes(int i, int j) {
+		boolean returnValue =  false;
+		if(i<3)
+			if(j<3)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(0,3,0,3);
+			else if(j<6)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(0,3,3,6);
+			else if(j<9)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(0,3,6,9);
+		else if(i <6)
+			if(j<3)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(3,6,0,3);
+			else if(j<6)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(3,6,3,6);
+			else if(j<9)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(3,6,6,9);
+		else if(i<9)
+			if(j<3)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(6,9,0,3);
+			else if(j<6)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(6,9,3,6);
+			else if(j<9)
+				returnValue = returnValue || filterCurrentCelOnPossibilityBasisInBox(6,9,6,9);	
+		return returnValue;
+	}
+
+	private static boolean filterCurrentCelOnPossibilityBasisInBox(int xStart,int xEnd,int yStart,int yEnd){
+		boolean returnValue = false;
+		for(int num =1;num<10;num++)
 		{
-			cells[i][j].finalValue=cells[i][j].possibleValues.iterator().next();
-			cells[i][j].isValueSet=true;
-			computed++;
+		int count = 0;
+		int x=0,y =0,finalValue =0;
+		for(int k=xStart;k<xEnd;k++)
+		{
+			for(int l=yStart;l<yEnd;l++)
+			{
+				if(cells[k][l].isValueSet && cells[k][l].finalValue==num)
+					continue;
+				if(cells[k][l].isValueSet)
+					continue;
+				if(count>1)
+					continue;
+				if(cells[k][l].possibleValues.contains(num))
+				{
+					count++;
+					x=k;
+					y=l;
+					finalValue =num;
+				}
+			}
 		}
-		return true;
+		if(count==1)
+		{
+			cells[x][y].finalValue = finalValue;
+			cells[x][y].isValueSet = true;
+			returnValue = true;
+			computed++;
+			System.out.println("from box removal: x,y,value: "+x+y+cells[x][y].finalValue);
+		}
+		}
+		return returnValue;
 	}
 	
-	private static boolean processBox(Box box,int i,int j){
+	private static boolean filterCurrentCellValueFromSameBoxValues(int xStart,int xEnd,int yStart,int yEnd,int i, int j){
+		boolean returnValue = false;
+		for(int m=xStart;m<xEnd;m++){
+			for(int n=yStart;n<yEnd;n++){
+				if(!cells[m][n].isValueSet)
+					continue;
+				cells[i][j].possibleValues.remove(cells[m][n].finalValue);
+				if(cells[i][j].possibleValues.size()==1)
+				{
+					cells[i][j].finalValue=cells[i][j].possibleValues.iterator().next();
+					cells[i][j].isValueSet=true;
+					computed++;
+					returnValue = true;
+				}
+			}
+		}
+		return returnValue;
+	}
+	
+	private static boolean removeFromOtherCellsInThreeByThreeBox(int xStart,int xEnd,int yStart,int yEnd,int i,int j){
 		boolean newValueFound = false;
-		if(box.isValueSet)
-			return false;
-		box.possibleValues.remove(cells[i][j].finalValue);
-		if(box.possibleValues.size()==1){
-			box.finalValue=box.possibleValues.iterator().next();
-			box.isValueSet=true;
-			computed++;
-			newValueFound = true;
+		for(int k=xStart;k<xEnd;k++){
+			for(int l=yStart;l<yEnd;l++){
+				if(cells[k][l].isValueSet)
+					continue;
+				cells[k][l].possibleValues.remove(cells[i][j].finalValue);
+				if(cells[k][l].possibleValues.size()==1){
+					cells[k][l].finalValue=cells[k][l].possibleValues.iterator().next();
+					cells[k][l].isValueSet=true;
+					computed++;
+					newValueFound = true;
+				}
+			}
 		}
 		return newValueFound;
 	}
 	
-	private static boolean processInThreeByThreeBox(int i, int j) {
+	private static boolean removePossibleValueFromOtherCellInThreeByThreeBoxes(int i, int j) {
 		boolean returnValue = false;
 		if(i<3)
-		{
 			if(j<3)
-				for(int k=0;k<3;k++)
-					for(int l=0;l<3;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(0,3,0,3,i,j);
 			else if(j<6)
-				for(int k=0;k<3;k++)
-					for(int l=3;l<6;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(0,3,3,6,i,j);
 			else if(j<9)
-				for(int k=0;k<3;k++)
-					for(int l=6;l<9;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
-		}
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(0,3,6,9,i,j);
 		else if(i <6)
-		{
 			if(j<3)
-				for(int k=3;k<6;k++)
-					for(int l=0;l<3;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(3,6,0,3,i,j);
 			else if(j<6)
-				for(int k=3;k<6;k++)
-					for(int l=3;l<6;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(3,6,3,6,i,j);
 			else if(j<9)
-				for(int k=3;k<6;k++)
-					for(int l=6;l<9;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
-		}
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(3,6,6,9,i,j);
 		else if(i<9)
-		{
 			if(j<3)
-				for(int k=6;k<9;k++)
-					for(int l=0;l<3;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(6,9,3,0,i,j);
 			else if(j<6)
-				for(int k=6;k<9;k++)
-					for(int l=3;l<6;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(6,9,3,6,i,j);
 			else if(j<9)
-				for(int k=6;k<9;k++)
-					for(int l=6;l<9;l++)
-						returnValue = returnValue || processBox(cells[k][l],i,j);
-		}
+				returnValue = returnValue || removeFromOtherCellsInThreeByThreeBox(6,9,6,9,i,j);
 		return returnValue;
 	}
 
