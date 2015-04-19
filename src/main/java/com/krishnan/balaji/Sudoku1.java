@@ -14,21 +14,21 @@ public class Sudoku1 {
 		for(int i=0;i<9;i++)
 			for(int j=0;j<9;j++)
 				cells[i][j] = new Cell();
-		boxes.put(1, new Box(0,3,0,3));
-		boxes.put(2, new Box(0,3,3,6));
-		boxes.put(3, new Box(0,3,6,9));
-		boxes.put(4, new Box(3,6,0,3));
-		boxes.put(5, new Box(3,6,3,6));
-		boxes.put(6, new Box(3,6,6,9));
-		boxes.put(7, new Box(6,9,0,3));
-		boxes.put(8, new Box(6,9,3,6));
-		boxes.put(9, new Box(6,9,6,9));
+		boxes.put(1, new Box(0,3,0,3,1));
+		boxes.put(2, new Box(0,3,3,6,2));
+		boxes.put(3, new Box(0,3,6,9,3));
+		boxes.put(4, new Box(3,6,0,3,4));
+		boxes.put(5, new Box(3,6,3,6,5));
+		boxes.put(6, new Box(3,6,6,9,6));
+		boxes.put(7, new Box(6,9,0,3,7));
+		boxes.put(8, new Box(6,9,3,6,8));
+		boxes.put(9, new Box(6,9,6,9,9));
 	}
 	
 	public static void display(){
 		for(int row=0;row<9;row++){
 			for(int col=0;col<9;col++){
-				System.out.print(cells[row][col]+" ");
+				System.out.print(cells[col][row].finalValue+" ");
 			}
 			System.out.println();
 		}
@@ -43,7 +43,18 @@ public class Sudoku1 {
 				int value = input[row*9+col];
 				if(value>0){
 					cells[row][col].finalValue= value;
-					getBox(row, col).alreadySet.add(value);
+					Box box =getBox(row, col);
+					if(box!=null)
+					{
+						box.alreadySet.add(value);
+						boxes.put(box.boxNum, box);
+					}
+					else
+					{
+						System.out.println("test "+boxes);
+						System.out.println("Null box for "+row+","+col);
+					}
+						
 				}
 				else{
 					cells[row][col].possiblieValues = new HashSet<Integer>();
@@ -66,6 +77,8 @@ public class Sudoku1 {
 			System.out.println("After "+attemptCount+",nextAttempt "+nextAttempt);
 			display();
 		}
+		System.out.println("\n\n\nFinal\n\n\n");
+		display();
 	}
 
 	private static boolean attempt()
@@ -85,7 +98,9 @@ public class Sudoku1 {
 							if(cells[row][temp].possiblieValues.size()==1)
 							{
 								cells[row][temp].finalValue=cells[row][temp].possiblieValues.iterator().next();
-								getBox(row, temp).alreadySet.add(cells[row][temp].finalValue);
+								Box box = getBox(row, temp);
+								box.alreadySet.add(cells[row][temp].finalValue);
+								boxes.put(box.boxNum, box);
 								nextAttempt = true;
 							}
 						}
@@ -95,7 +110,9 @@ public class Sudoku1 {
 							if(cells[temp][col].possiblieValues.size()==1)
 							{
 								cells[temp][col].finalValue=cells[temp][col].possiblieValues.iterator().next();
-								getBox(temp, col).alreadySet.add(cells[temp][col].finalValue);
+								Box box = getBox(temp, col);
+								box.alreadySet.add(cells[temp][col].finalValue);
+								boxes.put(box.boxNum, box);
 								nextAttempt = true;
 							}
 						}
@@ -112,7 +129,9 @@ public class Sudoku1 {
 							if(cells[row][col].possiblieValues.size()==1)
 							{
 								cells[row][col].finalValue = cells[row][col].possiblieValues.iterator().next();
-								getBox(row, col).alreadySet.add(cells[row][col].finalValue);
+								Box box = getBox(row, col);
+								box.alreadySet.add(cells[row][col].finalValue);
+								boxes.put(box.boxNum, box);
 								nextAttempt = true;
 							}
 						}
@@ -122,7 +141,9 @@ public class Sudoku1 {
 							if(cells[row][col].possiblieValues.size()==1)
 							{
 								cells[row][col].finalValue = cells[row][col].possiblieValues.iterator().next();
-								getBox(row, col).alreadySet.add(cells[row][col].finalValue);
+								Box box = getBox(row, col);
+								box.alreadySet.add(cells[row][col].finalValue);
+								boxes.put(box.boxNum, box);
 								nextAttempt = true;
 							}
 						}
@@ -162,6 +183,7 @@ public class Sudoku1 {
 			{
 				cells[px][py].finalValue=currentNum;
 				currentBox.alreadySet.remove(currentNum);
+				boxes.put(currentBox.boxNum, currentBox);
 				returnValue = true;
 			}
 		}
@@ -170,26 +192,34 @@ public class Sudoku1 {
 
 	private static Box getBox(int row, int col) {
 		if(row<3)
+		{
 			if(col<3)
 				return boxes.get(1);
 			else if(col<6)
 				return boxes.get(2);
 			else if(col<9)
-				return boxes.get(3);
+				return boxes.get(3);	
+		}
+			
 		else if(row <6)
+		{
 			if(col<3)
 				return boxes.get(4);
 			else if(col<6)
 				return boxes.get(5);
 			else if(col<9)
 				return boxes.get(6);
+		}
 		else if(row<9)
+		{
 			if(col<3)
 				return boxes.get(7);
 			else if(col<6)
 				return boxes.get(8);
 			else if(col<9)
-				return boxes.get(9);
+				return boxes.get(9);			
+		}
+		System.out.println("returning null box for "+row+", "+col);
 		return null;
 	}
 
@@ -200,6 +230,7 @@ public class Sudoku1 {
 		{
 			cells[row][col].finalValue = cells[row][col].possiblieValues.iterator().next();
 			box.alreadySet.add(cells[row][col].finalValue);
+			boxes.put(box.boxNum, box);
 			returnValue = true;
 		}
 		return returnValue;
@@ -214,11 +245,12 @@ public class Sudoku1 {
 			{
 				if(cells[x][y].finalValue<=0)
 				{
-					cells[x][y].possiblieValues.remove(cells[i][j].finalValue);
+					cells[x][y].possiblieValues.remove(box.alreadySet);
 					if(cells[x][y].possiblieValues.size()==1)
 					{
-						cells[x][y].finalValue=cells[x][y].possiblieValues.iterator().next();
-						getBox(x, y).alreadySet.add(cells[x][y].finalValue);
+						cells[x][y].finalValue=cells[x][y].possiblieValues.iterator().next();						
+						box.alreadySet.add(cells[x][y].finalValue);
+						boxes.put(box.boxNum, box);
 						returnValue = true;
 					}
 				}

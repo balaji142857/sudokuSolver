@@ -107,14 +107,16 @@ public class Viewer extends Application{
 	            			intArray[i]=Integer.parseInt(inputs[i].getText());
 	            		else
 	            			intArray[i]=0;
+	            	
 	            	for(int i=0;i<9;i++){
 	            		for(int j=0;j<9;j++){
 	            			System.out.print(intArray[j*9+i]+" ");
 	            		}
 	            		System.out.println();
 	            	}
-	                Sudoku1.initialize(intArray);
-	                Sudoku1.display();
+	                
+	            	Sudoku1.initialize(intArray);
+	                Sudoku1.solve();
 	              /*  Integer[][] solved = Sudoku.solveIt();
 	                for(int i=0;i<9;i++){
 	                	for(int j=0;j<9;j++){
