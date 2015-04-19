@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Sudoku solver" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <GridPane hgap="2.0" maxWidth="-Infinity" vgap="2.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>                  
+                  <TextField styleClass="boxOne" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<TextField styleClass="boxOne" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<TextField styleClass="boxFour" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<TextField styleClass="boxFour" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				<TextField styleClass="boxFour" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+				<TextField styleClass="boxOne" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+				<TextField styleClass="boxOne" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></TextField>
+				<TextField styleClass="boxFour" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+				<TextField styleClass="boxFour" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+				<TextField styleClass="boxFour" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+				<TextField styleClass="boxSeven" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+				<TextField styleClass="boxTwo" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+				<TextField styleClass="boxFive" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="5" GridPane.rowIndex="7" />
+				<TextField styleClass="boxEight" GridPane.columnIndex="5" GridPane.rowIndex="8" />
+				<TextField styleClass="boxThree" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+				<TextField styleClass="boxThree" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="6" GridPane.rowIndex="8" />
+				<TextField styleClass="boxThree" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></TextField>
+				<TextField styleClass="boxThree" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="7" GridPane.rowIndex="7" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="7" GridPane.rowIndex="8" />
+				<TextField styleClass="boxThree" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+				<TextField styleClass="boxThree" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="8" GridPane.rowIndex="3" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+				<TextField styleClass="boxSix" GridPane.columnIndex="8" GridPane.rowIndex="5" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="8" GridPane.rowIndex="6" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+				<TextField styleClass="boxNine" GridPane.columnIndex="8" GridPane.rowIndex="8" />
+                  <TextField id="0" styleClass="boxOne" />
+                  <TextField id="1" styleClass="boxOne" GridPane.columnIndex="1" />
+                  <TextField styleClass="boxOne" GridPane.columnIndex="2" />
+                  <TextField styleClass="boxTwo" GridPane.columnIndex="3" />
+                  <TextField styleClass="boxTwo" GridPane.columnIndex="4" />
+                  <TextField styleClass="boxTwo" GridPane.columnIndex="5">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></TextField>
+                  <TextField styleClass="boxThree" GridPane.columnIndex="6" />
+                  <TextField styleClass="boxThree" GridPane.columnIndex="7" />
+                  <TextField styleClass="boxThree" GridPane.columnIndex="8" />
+                  <TextField styleClass="boxOne" GridPane.rowIndex="1" />
+                  <TextField styleClass="boxOne" GridPane.rowIndex="2" />
+                  <TextField styleClass="boxFour" GridPane.rowIndex="3" />
+                  <TextField styleClass="boxFour" GridPane.rowIndex="4" />
+                  <TextField styleClass="boxFour" GridPane.rowIndex="5" />
+                  <TextField styleClass="boxSeven" GridPane.rowIndex="6" />
+                  <TextField styleClass="boxSeven" GridPane.rowIndex="7" />
+                  <TextField styleClass="boxSeven" GridPane.rowIndex="8" />
+
+               </children>
+            </GridPane>
+         </center>
+         <bottom>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <items>
+                <Button mnemonicParsing="false" text="Solve" />
+                  <Button mnemonicParsing="false" text="Reset" />
+                  <Button mnemonicParsing="false" text="Button" />
+              </items>
+            </ToolBar>
+         </bottom>
+         <right>
+            <WebView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </content>
+</TitledPane>

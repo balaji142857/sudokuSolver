@@ -3,22 +3,18 @@ package com.krishnan.balaji;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Box {
 
-	public int finalValue;
-	public boolean isValueSet;
-	public Set<Integer> possibleValues;
+public class Box {
 	
-	public Box()
-	{
-		isValueSet=false;
-		possibleValues = new HashSet<Integer>();
-		for( int i=1;i<10;i++)
-			possibleValues.add(i);
+	int xStart;
+	int xEnd;
+	int yStart;
+	int yEnd;
+	Set<Integer> alreadySet = new HashSet<Integer>();
+	public Box(int xStart,int xEnd,int yStart,int yEnd){
+		this.xStart=xStart;
+		this.xEnd=xEnd;
+		this.yStart=yStart;
+		this.yEnd=yEnd;
 	}
-	
-	public String toString(){
-		return finalValue+"";
-	}
-	
 }
